@@ -10,7 +10,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() { }
+  async googleOauth() { }
 
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
@@ -29,7 +29,7 @@ export class AuthController {
 
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  async githubAuth() { }
+  async githubOauth() { }
 
   @Get('github/redirect')
   @UseGuards(AuthGuard('github'))

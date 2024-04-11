@@ -11,7 +11,7 @@ export class NotesController {
 
   @Post()
   create(@Body() createNoteDto: CreateNoteDto, @Req() req) {
-    const userId = req.user.id; // беремо userId з payload JWT
+    const userId = req.user.id;
     return this.notesService.create(createNoteDto, userId);
   }
 
