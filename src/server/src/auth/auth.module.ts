@@ -9,11 +9,12 @@ import { UsersService } from '../users/users.service';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '15m',
+        expiresIn: '1h',
       },
-    })
+    }),
   ],
   providers: [AuthService, UsersService],
   controllers: [AuthController],
+  exports: [JwtModule],
 })
-export class AuthModule { }
+export class AuthModule {}

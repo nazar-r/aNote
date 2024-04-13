@@ -1,4 +1,4 @@
-import RenderingButtons from "./buttons/launching-buttons";
+import RenderingButtons from "./launching-buttons";
 
 const LoginPageContent = () => (
     <div className="login-page">

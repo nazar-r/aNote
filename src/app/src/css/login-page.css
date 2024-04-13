@@ -51,7 +51,9 @@
     }
 
     .login-page__button--error {
-        margin: 0 0 20px 0;
+        font-size: 13px;
+        margin: 0 0 10px 0;
+        color: #ffe600;
     }
 
     .login-page__title {
@@ -67,8 +69,8 @@
     }
 
     .login-page__button--text-input {
-        margin: 0 0 0 20px;
-        padding: 10% 0 0 0;
+        margin: 0 0 0 30px;
+        padding: 25px 0 0 0;
         width: 100%;
         height: 100%;
         display: flex;
@@ -97,6 +99,14 @@
         box-shadow: 7px 7px 50px #00000073;
         cursor: pointer;
         transition: 0.35s;
+    }
+
+    .login-page__button--title:hover {
+        display: flex;
+        flex-direction: row;
+        transform: var(--transform-welcome-page__button--item);
+        align-items: center;
+        opacity: 80%;
     }
 
     @media(min-width: 650px) {
