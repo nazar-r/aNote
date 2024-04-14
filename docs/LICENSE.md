@@ -2,7 +2,7 @@
 
 Copyright (c) 2026 Nazar Rozhalovsky
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software") to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the following conditions:
+Permission is hereby granted, **free of charge**, to any person obtaining a copy of this software and associated documentation files (the "Software") to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the following conditions:
 
 1. **Attribution**
    You must give appropriate credit to the original author and include this license in all copies or substantial portions of the Software.
