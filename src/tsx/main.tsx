@@ -1,8 +1,8 @@
 import { lazy, Suspense, ReactElement } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, RouteObject, useLoaderData } from 'react-router-dom';
-import { LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router';
+import { LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom';
 
-import AppLayout from './app-layout';
+import '../css/index.css';
 import LoadingPageContent from './loading-page';
 import ErrorsPageContent from './errors-page';
 
@@ -39,11 +39,8 @@ class ApiError extends Error {
   }
 }
 
-const fetchJson = async <T,>(
-  endpoint: string,
-  init?: RequestInit
-): Promise<T> => {
-  const url = `${API_BASE}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+const fetchJson = async <T,>(endpoint: string, init?: RequestInit): Promise<T> => {
+  const url = `${API_BASE}${endpoint.startsWith('/') ? endpoint : '/' + endpoint}`;
 
   const res = await fetch(url, {
     ...init,
@@ -55,16 +52,13 @@ const fetchJson = async <T,>(
     let errorBody = '';
     try {
       errorBody = await res.text();
-    } catch { }
+    } catch {}
 
     if (res.status === 401 || res.status === 403) {
       throw new ApiError(res.statusText || 'Auth error', res.status);
     }
 
-    throw new ApiError(
-      `API error: ${res.status} ${errorBody || res.statusText}`,
-      res.status
-    );
+    throw new ApiError(`API error: ${res.status} ${errorBody || res.statusText}`, res.status);
   }
 
   return res.json() as Promise<T>;
@@ -73,13 +67,10 @@ const fetchJson = async <T,>(
 const fetchUser = () => fetchJson<User>('/user');
 const fetchTasks = () => fetchJson<Task[]>('/tasks');
 
-export const contentLoader: LoaderFunction = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const contentLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   try {
     const [user, tasks] = await Promise.all([fetchUser(), fetchTasks()]);
-
-    return { user, tasks } as TasksLoaderData;
+    return { user, tasks };
   } catch (err) {
     if (err instanceof ApiError) {
       const from = new URL(request.url).pathname;
@@ -98,15 +89,12 @@ export const contentLoader: LoaderFunction = async ({
 };
 
 const withSuspense = (component: ReactElement) => (
-  <Suspense fallback={<LoadingPageContent />}>
-    {component}
-  </Suspense>
+  <Suspense fallback={<LoadingPageContent />}>{component}</Suspense>
 );
 
 const contentRoutes: RouteObject[] = [
   {
     path: '/',
-    element: withSuspense(<AppLayout />),
     errorElement: <ErrorsPageContent />,
     children: [
       { index: true, element: <Navigate to="/welcome" replace /> },
@@ -123,11 +111,10 @@ const contentRoutes: RouteObject[] = [
   { path: '*', element: <ErrorsPageContent /> },
 ];
 
-export const useContentData = (): TasksLoaderData =>
+export const useContentData = () =>
   useLoaderData() as TasksLoaderData;
 
 const appRouter = createBrowserRouter(contentRoutes);
-
 const RouterRendering = () => <RouterProvider router={appRouter} />;
 
 export default RouterRendering;
