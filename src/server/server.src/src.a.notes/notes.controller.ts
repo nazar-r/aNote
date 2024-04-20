@@ -21,6 +21,12 @@ export class NotesController {
     return this.notesService.findNotes(cookiesUserId);
   }
 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateNoteDto: CreateNoteDto, @Req() req: any) {
+    const cookiesUserId = req.user.userId;
+    return this.notesService.update(id, cookiesUserId, updateNoteDto.content);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string, @Req() req: any) {
     const userId = req.user.sub;

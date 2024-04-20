@@ -16,9 +16,22 @@ export class NotesService {
     });
   }
 
-  findNotes(userId: string, ) {
+  findNotes(userId: string,) {
     return this.prisma.note.findMany({
       where: { userId },
+    });
+  }
+
+  update(noteId: string, userId: string, content: string) {
+    return this.prisma.note.updateMany({
+      where: {
+        userId: userId,
+        noteId: noteId,
+      },
+
+      data: {
+        content: content,
+      },
     });
   }
 
