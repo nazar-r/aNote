@@ -8,27 +8,52 @@ export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService,
-    ) {}
+    ) { }
 
-    register = async (email: string, password: string) =>
-        ((hash) => this.usersService.create(email, hash)
-            .then(user => ({ id: user.id, email: user.email })))
-        (await bcrypt.hash(password, 10));
+  register = async (email: string, password: string) => {
+    console.log("REGISTER START");
+    console.log("INPUT:", { email, password });
 
-    generateTokens = async (userId: string, email: string) =>
-        ((payload) => Promise.all([
-            this.jwtService.signAsync(payload, { expiresIn: '15m' }),
-            this.jwtService.signAsync(payload, { expiresIn: '7d' })
-        ]).then(([accessToken, refreshToken]) => ({ accessToken, refreshToken })))
-        ({ sub: userId, email });
+    const hash = await bcrypt.hash(password, 10);
+    console.log("HASH CREATED:", hash);
 
-    login = async (email: string, password: string) => {
-        const user = await this.usersService.findByEmail(email);
-        if (!user) throw new UnauthorizedException();
-        if (!await bcrypt.compare(password, user.password)) throw new UnauthorizedException();
+    const user = await this.usersService.create(email, hash);
+    console.log("USER CREATED:", user);
 
-        const tokens = await this.generateTokens(user.id, user.email);
-        await this.usersService.updateRefreshToken(user.id, await bcrypt.hash(tokens.refreshToken, 10));
-        tokens;
-    };
+    const tokens = await this.generateTokens(user.id, user.email);
+    console.log("TOKENS GENERATED:", tokens);
+
+    return tokens;
+};
+
+generateTokens = async (userId: string, email: string) => {
+    console.log("GENERATE TOKENS START");
+    console.log("TOKEN INPUT:", { userId, email });
+
+    const payload = { sub: userId, email };
+    console.log("PAYLOAD:", payload);
+
+    const [accessToken, refreshToken] = await Promise.all([
+        this.jwtService.signAsync(payload, { expiresIn: '15m' }),
+        this.jwtService.signAsync(payload, { expiresIn: '7d' })
+    ]);
+
+    console.log("ACCESS TOKEN:", accessToken);
+    console.log("REFRESH TOKEN:", refreshToken);
+
+    return { accessToken, refreshToken };
+};
+
+   login = async (email: string, password: string) => {
+    const user = await this.usersService.findByEmail(email);
+    if (!user) throw new UnauthorizedException("Invalid credentials");
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) throw new UnauthorizedException("Invalid credentials");
+
+    const tokens = await this.generateTokens(user.id, user.email);
+    const hashedRefreshToken = await bcrypt.hash(tokens.refreshToken, 10);
+    await this.usersService.updateRefreshToken(user.id, hashedRefreshToken);
+
+    return tokens;
+};
 }

@@ -1,10 +1,27 @@
-export const loginUser = async (email: string, password: string) => {
-  const res = await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message);
-  return data.access_token;
+import { registerUser } from "./register-user";
+import { loginUser } from "./login-user";
+import { checkingEmailSyntax, checkingPassSyntax } from "./syntax-check";
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
+export interface LoginError {
+  email: string;
+  password: string;
+}
+
+export const handleSubmit = async ({
+  email,
+  password,
+}: LoginData): Promise<{ token?: string; error?: LoginError }> => {
+  const emailError = email && !checkingEmailSyntax(email) ? "Incorrect Email!" : "";
+  const passwordError = password && !checkingPassSyntax(password) ? "Paste at least 8 characters as password" : "";
+
+  return emailError || passwordError
+    ? { error: { email: emailError, password: passwordError } }
+    : await registerUser(email, password)
+        .then((token) => ({ token }))
+        .catch((err: any) => ({ error: { email: "", password: err.message || "Login failed" } }));
 };

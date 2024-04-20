@@ -1,17 +1,30 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthDto } from './dto/register.user.dto';
+
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
-  @Post('register')
-  register(@Body() body: any) {
-    return this.authService.register(body.email, body.password);
+@Post('register')
+async register(@Body() dto: AuthDto) {
+  try {
+    const tokens = await this.authService.register(dto.email, dto.password);
+
+    // console.log("REGISTER REQUEST:", dto);
+    console.log("TOKENS:", tokens);
+
+    return tokens;
+  } catch (err: any) {
+    // console.error("REGISTER ERROR:", err);
+    throw err;
   }
+}
 
   @Post('login')
-  login(@Body() body: any) {
-    return this.authService.login(body.email, body.password);
+  async login(@Body() dto: AuthDto) {
+    console.log("LOGIN REQUEST:", dto);
+    return this.authService.login(dto.email, dto.password);
   }
 }

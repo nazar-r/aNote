@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { handleSubmit } from "./extensions/handle-submit";
+import { handleSubmit } from "./extensions/fetching";
 
 const RenderingButtons: React.FC = () => {
   const [clicked, setClicked] = useState<number | null>(null);
@@ -22,7 +22,7 @@ const RenderingButtons: React.FC = () => {
       : result.token && (console.log("Access token:", result.token), localStorage.setItem("token", result.token));
   };
 
-  const buttons = ["Log in", "Sign in"];
+  const buttons = ["Log in", "Sign up"];
 
   return (
     <div className="login-page__button-container">
@@ -40,7 +40,7 @@ const RenderingButtons: React.FC = () => {
               {error.email && <p className="login-page__button--error">{error.email}</p>}
               <input className="login-page__button--text-item" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
               {error.password && <p className="login-page__button--error">{error.password}</p>}
-              {loading && <p>Loading...</p>}
+              {loading && <p className="login-page__button--error" >Loading...</p>}
             </div>
           )}
         </div>
