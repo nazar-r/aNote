@@ -1,7 +1,8 @@
 import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Response } from 'express';
+import { JwtCheckCookies } from '../src.b.jwt/jwt.check.cookies';
+import { Request, Response } from 'express';
 
 
 @Controller('auth')
@@ -24,7 +25,7 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 24,
     });
 
-    return res.redirect('http://localhost:5173/lobby');
+    return res.redirect('http://localhost:5173/lobby-prev');
   }
 
   @Get('github')
@@ -43,6 +44,12 @@ export class AuthController {
       maxAge: 1000 * 60 * 60 * 24,
     });
 
-    return res.redirect('http://localhost:5173/lobby');
+    return res.redirect('http://localhost:5173/lobby-prev');
+  }
+
+  @Get('check')
+  @UseGuards(JwtCheckCookies)
+  checkLogin(@Req() req: Request) {
+    return { isLoggedIn: true, user: req.user };
   }
 }

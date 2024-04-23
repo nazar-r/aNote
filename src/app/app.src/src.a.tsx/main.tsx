@@ -1,9 +1,9 @@
-import type { ReactElement } from 'react';
-import type { RouteObject } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { authentication } from './tsx.items/authentication.ts';
+import { lazy, Suspense } from 'react';
+import type { RouteObject } from 'react-router-dom';
+import type { ReactElement } from 'react';
 import '../src.a.css/index.css';
 
 const Layout = lazy(() => import('./tsx.items/layout.tsx'));
@@ -18,6 +18,30 @@ const withSuspense = (component: ReactElement) => (
   <Suspense>{component}</Suspense>
 );
 
+// const privateAuth = (component: ReactElement) => {
+//   const Wrapper = () => {
+//     const { data, isLoading } = authentication();
+//     return isLoading
+//       ? null
+//       : data
+//         ? component
+//         : <Navigate to="/lobby" replace />;
+//   };
+//   return <Wrapper />;
+// };
+
+// const publicAuth = (component: ReactElement) => {
+//   const Wrapper = () => {
+//     const { data, isLoading } = authentication();
+//     return isLoading
+//       ? null
+//       : data
+//         ? <Navigate to="/welcome" replace />
+//         : component;
+//   };
+//   return <Wrapper />;
+// };
+
 const contentRoutes: RouteObject[] = [
   {
     path: '/', element: <Layout />,
@@ -25,7 +49,7 @@ const contentRoutes: RouteObject[] = [
       { index: true, element: <Navigate to="/welcome" replace /> },
       { path: 'welcome', element: withSuspense(<WelcomePage />) },
       { path: 'login', element: withSuspense(<LoginPage />) },
-      { path: 'lobby:prev', element: withSuspense(<LobbyPagePrev />) },
+      { path: 'lobby-prev', element: withSuspense(<LobbyPagePrev />) },
       { path: 'lobby', element: withSuspense(<LobbyPage />) },
       { path: 'updates', element: withSuspense(<UpdatesPage />) },
       { path: 'tasks-editor', element: withSuspense(<TasksEditorPage />) },
@@ -40,7 +64,6 @@ const RouterRendering = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={appRouter} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 };
