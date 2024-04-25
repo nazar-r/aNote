@@ -1,4 +1,4 @@
-const userRegistration = async (email: string, password: string) => {
+const userRegistration = async (email: string, password: string): Promise<{ ServerError: string }> => {
   const res = await fetch("http://localhost:3000/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

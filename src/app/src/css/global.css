@@ -11,6 +11,20 @@
     box-sizing: border-box;
 }
 
+input {
+    background-color: #000000;
+    color: #ffffff;;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+input:-webkit-autofill {
+    background-color: #000000 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #000000 inset;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .main-index {
     background: linear-gradient(to right, #76CFF6 -50%, #70A7C8 35%, #0D72C5 120%);
     padding: 0 12vw 0 15vw;
@@ -24,6 +38,7 @@
         background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 50%, #0D72C5 120%);
     }
 }
+
 @media(min-width: 1250px) {
     .main-index {
         padding: 0 25vw 0 25vw;

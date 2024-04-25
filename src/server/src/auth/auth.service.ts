@@ -1,4 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { GoogleStrategy } from './auth.google';
+import { AuthController } from './auth.controller';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -56,5 +59,11 @@ export class AuthService {
 
         return { accessToken, refreshToken };
     };
+};
 
-}
+@Module({
+    imports: [PassportModule.register({ session: true })],
+    controllers: [AuthController],
+    providers: [GoogleStrategy],
+})
+export class AuthModule { }
