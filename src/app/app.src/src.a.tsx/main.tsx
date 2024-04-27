@@ -10,6 +10,7 @@ const Layout = lazy(() => import('./tsx.items/layout.tsx'));
 const LoginPage = lazy(() => import('./tsx.pages/login-page.tsx'));
 const WelcomePage = lazy(() => import('./tsx.pages/welcome-page.tsx'));
 const LobbyPage = lazy(() => import('./tsx.pages/lobby-page.tsx'));
+const LobbyPagePrev = lazy(() => import('./tsx.pages/lobby-page-prev.tsx'));
 const TasksEditorPage = lazy(() => import('./tsx.pages/tasks-editor-page.tsx'));
 const UpdatesPage = lazy(() => import('./tsx.pages/updates-page.tsx'));
 
@@ -24,6 +25,7 @@ const contentRoutes: RouteObject[] = [
       { index: true, element: <Navigate to="/welcome" replace /> },
       { path: 'welcome', element: withSuspense(<WelcomePage />) },
       { path: 'login', element: withSuspense(<LoginPage />) },
+      { path: 'lobby:prev', element: withSuspense(<LobbyPagePrev />) },
       { path: 'lobby', element: withSuspense(<LobbyPage />) },
       { path: 'updates', element: withSuspense(<UpdatesPage />) },
       { path: 'tasks-editor', element: withSuspense(<TasksEditorPage />) },
