@@ -10,15 +10,11 @@ const WelcomePageContent = () => {
         <div className="welcome-page-container__description">Notebook 1.1</div>
       </div>
 
-      <div
-        className="welcome-page__button"
-        onClick={async () =>
-          (await fetch("http://localhost:3000/auth/check", { credentials: "include" })
-            .then(res => res.json())
-            .then(data => data.user))
-            ? navigate("/lobby")
-            : navigate("/login")
-        }
+      <div className="welcome-page__button" onClick={async () =>
+        (await fetch("http://localhost:3000/auth/check", { credentials: "include" }).then(res => res.json()).then(data => data.user))
+          ? navigate("/lobby")
+          : navigate("/login")
+      }
       >
         <div className="welcome-page__button--title">Begin</div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="login-page__button--icon">

@@ -1,11 +1,9 @@
-import type { notesData, ErrorResponse } from '../types';
+import type {ErrorResponse } from '../types';
 
-export const pushingNotes = async (data: notesData) => {
+export const fetchingNotes = async () => {
   const response = await fetch('http://localhost:3000/notes', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'GET',
     credentials: 'include',
-    body: JSON.stringify(data),
   });
 
   if (!response.ok) {

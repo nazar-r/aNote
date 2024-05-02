@@ -1,9 +1,8 @@
-
 const NotesContainer = () => {
     return (
         <div>
-            <div className="lobby-note" >
-                <textarea className="lobby-note__field"/>
+            <div className="lobby-note" > </div>
+            <div className="lobby-note__field">
                 <div className="lobby-note__hidden">
                     <div className="lobby-note__hidden--item">
                         <svg className="lobby-note__hidden--item__icon" width="14" height="14" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
