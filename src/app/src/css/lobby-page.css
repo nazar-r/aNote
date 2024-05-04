@@ -4,6 +4,7 @@
         color: var(--color-text);
         align-items: left;
         height: var(--height-welcome-page);
+        animation: fadeIn 0.2s ease forwards;
     }
 
     .lobby-page__title {

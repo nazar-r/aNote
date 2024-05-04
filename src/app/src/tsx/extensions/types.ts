@@ -3,8 +3,8 @@ export type AuthToken = {
 };
 
 export type ErrorResponse = {
-    message: string;
-    error: string;
+    message: string | string[];
+    error?: string;
 };
 
 export type ButtonConfig = {
@@ -12,3 +12,4 @@ export type ButtonConfig = {
     label: string;
     icon: React.ComponentType;
 }
+
