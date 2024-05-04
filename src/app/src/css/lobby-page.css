@@ -4,7 +4,6 @@
         color: var(--color-text);
         align-items: left;
         height: var(--height-welcome-page);
-        /* padding: 0 0 calc(100vh - 40vh - 282px) 0; */
     }
 
     .lobby-page__title {

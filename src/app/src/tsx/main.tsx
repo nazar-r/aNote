@@ -9,6 +9,7 @@ import '../css/index.css';
 import LoadingPageContent from './loading-page';
 import ErrorsPageContent from './errors-page';
 
+const LoginPage = lazy(() => import('./login-page'));
 const WelcomePage = lazy(() => import('./welcome-page'));
 const LobbyPage = lazy(() => import('./lobby-page'));
 const TasksEditorPage = lazy(() => import('./tasks-editor-page'));
@@ -100,13 +101,12 @@ const contentRoutes: RouteObject[] = [
     path: '/',
     errorElement: <ErrorsPageContent />,
     children: [
-      { index: true, element: <Navigate to="/lobby" replace /> },
+      { index: true, element: <Navigate to="/welcome" replace /> },
       { path: 'welcome', element: withSuspense(<WelcomePage />) },
+      { path: 'login', element: withSuspense(<LoginPage />) },
       { path: 'lobby', element: withSuspense(<LobbyPage />) },
       { path: 'updates', element: withSuspense(<UpdatesPage />) },
-      {
-        path: 'tasks-editor',
-        element: withSuspense(<TasksEditorPage />),
+      { path: 'tasks-editor', element: withSuspense(<TasksEditorPage />),
         loader: contentLoader,
       },
     ],

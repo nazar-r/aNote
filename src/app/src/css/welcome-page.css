@@ -31,7 +31,7 @@
     display: flex;
     margin: 100px 0 0 0;
     font-size: var(--font-size-xs);
-    text-shadow: 5px 5px 50px #00000094;
+    text-shadow: 5px 5px 50px #000000b0;
     box-sizing: border-box;
 }
 
@@ -66,7 +66,7 @@
 
 @media(min-width: 1250px) {
     .welcome-page-container__title {
-        font-size: 55px;
+        font-size: var(--font-size-xxl);
     }
 
     .welcome-page__button {

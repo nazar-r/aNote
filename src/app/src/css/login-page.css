@@ -1,0 +1,99 @@
+    .login-page {
+        display: flex;
+        flex-direction: column;
+        color: var(--color-text);
+        align-items: left;
+        height: var(--height-welcome-page);
+    }
+
+    .login-page__button-container {
+        display: flex;
+        flex-direction: column;
+        margin: 85px 0 0 0;
+    }
+
+    .login-page__button--icon {
+        margin: 0 0 0 8px;
+    }
+
+    .login-page__button {
+        margin: 0 0 20px 0;
+        padding: 0 0 0 30px;
+        box-sizing: border-box;
+        width: 150px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        background: #000000;
+        box-shadow: 5px 5px 50px #00000065;
+        font-size: 16px;
+    }
+
+    .login-page__title {
+        margin: 40vh 0 0 0;
+        color: var(--color-text);
+        font-size: 35px;
+        text-shadow: var(--text-shadow-welcome-page__heading);
+    }
+
+    .login-page__text-field--icon {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+    }
+
+    .login-page__button:hover {
+        transform: var(--transform-welcome-page__button--item);
+        opacity: 80%;
+        box-shadow: 7px 7px 50px #00000073;
+        cursor: pointer;
+    }
+
+    @media(min-width: 650px) {
+        .login-page__button-container {
+            display: flex;
+            flex-direction: row;
+            margin: 85px 0 0 0;
+        }
+
+        .login-page__button {
+            margin: 0 20px 0 0;
+            box-sizing: border-box;
+            width: 150px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            background: #000000;
+            box-shadow: 5px 5px 50px #00000065;
+            font-size: 16px;
+            opacity: 80%;
+        }
+
+        .login-page__title {
+            font-size: 50px;
+            text-shadow: var(--text-shadow-welcome-page__heading);
+            margin: 40vh 0 0 0;
+        }
+    }
+
+    @media(min-width: 900px) {
+        .login-page__button-container {
+            display: flex;
+            flex-direction: row;
+            margin: 60px 0 0 0;
+        }
+    }
+
+    @media(min-width: 1250px) {
+        .login-page__button-container {
+            display: flex;
+            flex-direction: row;
+            margin: 60px 0 0 0;
+        }
+
+        .login-page__title {
+            font-size: var(--font-size-xxl);
+            text-shadow: var(--text-shadow-welcome-page__heading);
+            margin: 40vh 0 0 0;
+        }
+    }
