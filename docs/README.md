@@ -1,4 +1,4 @@
-# TypeScript Notebook via React + NestJS + PSQL
+# TypeScript-Based Notebook With React + NestJS + PostgreSQL
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
