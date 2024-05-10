@@ -1,21 +1,38 @@
 import Navbar from '../tsx.items/navbar';
 import { useQuery } from "@tanstack/react-query";
-import { fetchingNotes } from '../tsx.extensions/getApi/get.content.api'
+import { fetchingNotes } from '../tsx.extensions/getApi/get.content.api';
 import { useRemovingNotes } from '../tsx.extensions/setApi/use.remove.content.api';
 import type { notesData } from '../tsx.extensions/types';
+import { useState, useEffect } from 'react';
 
 const LobbyPageContent = () => {
     const removeNoteMutation = useRemovingNotes();
     const { data: notes = [] } = useQuery<notesData[]>(["notes"], fetchingNotes);
-    const deleteNote =  (noteId: string) => { removeNoteMutation.mutate(noteId) };
-   
+    const [localNotes, setLocalNotes] = useState<notesData[]>(notes);
+
+    useEffect(() => {
+        setLocalNotes(notes);
+    }, [notes]);
+
+    const deleteNote = (noteId: string) => {
+        const element = document.getElementById(noteId);
+        if (!element) return;
+
+        element.classList.add("lobby-note--fade");
+
+        setTimeout(() => {
+            removeNoteMutation.mutate(noteId);
+            setLocalNotes(prev => prev.filter(note => note.noteId !== noteId));
+        }, 200);
+    };
+
     return (
         <div>
             <div className="lobby-page">
                 <div className="lobby-page__title">Your Notes</div>
                 <div className="lobby-page__container">
-                    {notes.map((note) => (
-                        <div className="lobby-note">
+                    {localNotes.map((note) => (
+                        <div className="lobby-note" id={note.noteId} key={note.noteId}>
                             <textarea className="lobby-note__field" value={note.content} readOnly />
                             <div className="lobby-note__hidden">
                                 <div className="lobby-note__hidden--item">

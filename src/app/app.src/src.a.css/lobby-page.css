@@ -12,6 +12,10 @@
     white-space: nowrap;
 }
 
+.lobby-note--fade {
+    animation: fadeOut 0.2s ease forwards;
+}
+
 .lobby-note__hidden--item {
     font-size: 14px;
     margin: 0 20px 0 0;
