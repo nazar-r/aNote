@@ -25,7 +25,7 @@ export class GithubOauth extends PassportStrategy(Strategy, 'github') {
 
     const prefixedId = `gt_${id}`;
 
-    const user: AuthUser = await this.usersService.findOrCreateUser({ id: prefixedId, email, name });
+    const user: AuthUser = await this.usersService.findOrCreateUser({ userId: prefixedId, email, name });
 
     done(null, user);
   }

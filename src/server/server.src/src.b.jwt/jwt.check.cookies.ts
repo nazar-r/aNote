@@ -1,22 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class JwtCheckCookies extends PassportStrategy(Strategy) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (req) => {
-          return req?.cookies?.access_token;
-        },
-      ]),
-      ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    });
-  }
+export class JwtCheckCookies implements CanActivate {
+  constructor(private jwtService: JwtService) { }
 
-  async validate(payload: any) {
-    return { id: payload.id, username: payload.username };
+  canActivate(context: ExecutionContext): boolean {
+    const req = context.switchToHttp().getRequest();
+    const token = req.cookies?.access_token;
+
+    const payload = token
+      ? (() => {
+        try {
+          return this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+        } catch {
+          throw new UnauthorizedException();
+        }
+      })()
+      : (() => { throw new UnauthorizedException(); })();
+
+    payload
+      ? (req.user = payload)
+      : (() => { throw new UnauthorizedException(); })();
+
+    return true;
   }
 }

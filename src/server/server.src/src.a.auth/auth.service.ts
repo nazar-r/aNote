@@ -12,18 +12,12 @@ export class AuthService {
     ) { }
 
     googleLogin = async (profile: AuthUser) => {
-        if (!profile.email) {
-            throw new UnauthorizedException({
-                message: 'Email is missing in Google profile',
-                error: 'Unauthorized',
-            });
-        }
-
         const user = await this.usersService.findOrCreateUser(profile);
         const loginUser = () => ({
             access_token: this.jwtService.sign({
+                userId: user.userId,
+                name: user.userName,
                 email: user.email,
-                sub: user.id,
             }),
         });
 
@@ -31,18 +25,12 @@ export class AuthService {
     };
 
     githubLogin = async (profile: AuthUser) => {
-        if (!profile.email) {
-            throw new UnauthorizedException({
-                message: 'Email is missing in GitHub profile',
-                error: 'Unauthorized',
-            });
-        }
-
         const user = await this.usersService.findOrCreateUser(profile);
         const loginUser = () => ({
             access_token: this.jwtService.sign({
-                email: user.email,
-                sub: user.id,
+                userId: user.userId,
+                name: user.userName,
+                email: user.email ?? undefined,
             }),
         });
 
@@ -51,7 +39,8 @@ export class AuthService {
 
     generateTokens = async (profile: AuthUser) => {
         const payload = {
-            sub: profile.id,
+            userId: profile.userId,
+            name: profile.name,
             email: profile.email
         };
 

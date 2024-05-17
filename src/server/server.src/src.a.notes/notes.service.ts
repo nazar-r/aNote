@@ -7,11 +7,11 @@ import { UpdateNoteDto } from './notes.image/notes.updating.dto';
 export class NotesService {
   private prisma = new PrismaClient();
 
-  create(createNoteDto: CreateNoteDto, userId: string) {
+  create(createNoteDto: CreateNoteDto, cookiesUserId: string) {
     return this.prisma.note.create({
       data: {
         content: createNoteDto.content,
-        userId: userId,
+        userId: cookiesUserId,
       },
     });
   }
@@ -23,8 +23,8 @@ export class NotesService {
   remove(noteId: string, userId: string) {
     return this.prisma.note.deleteMany({
       where: {
-        id: noteId,
         userId: userId,
+        noteId: noteId,
       },
     });
   }

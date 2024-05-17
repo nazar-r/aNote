@@ -7,19 +7,21 @@ export class UsersService {
   private prisma = new PrismaClient();
 
   findOrCreateUser(profile: AuthUser) {
-    if (!profile.id) throw new UnauthorizedException('Profile ID is missing');
-    if (!profile.email) throw new UnauthorizedException('Profile Email is missing');
+    if (!profile.userId) throw new UnauthorizedException({
+      message: 'ID is missing in your Service profile',
+      error: 'Unauthorized',
+    });
 
     return this.prisma.user.upsert({
       where: { email: profile.email },
-      update: { id: profile.id },
-      create: { email: profile.email, id: profile.id },
+      update: { userName: profile.name || 'Unknown' },
+      create: { email: profile.email, userId: profile.userId, userName: profile.name || 'Unknown' },
     });
   }
 
   updateRefreshToken(userId: string, refreshTokenHash: string) {
     return this.prisma.user.update({
-      where: { id: userId },
+      where: { userId: userId },
       data: { refreshToken: refreshTokenHash },
     });
   }
