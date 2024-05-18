@@ -1,14 +1,27 @@
-.welcome-page-container {
+.welcome-page {
     display: flex;
     flex-direction: column;
     align-items: left;
-    justify-content: center;
-    height: var(--height-welcome-page);
     color: var(--color-text);
     text-shadow: var(--text-shadow-welcome-page__heading);
+    height: var(--height-welcome-page);
+}
+
+.welcome-page-container {
+    margin: 40vh 0 0 0;
     padding: var(--welcome-page-container-padding);
 }
 
+.welcome-page__button--icon {
+    margin: 0 0 0 10px;
+}
+
+.welcome-page__button {
+    display: flex;
+    margin: 75px 0 0 0;
+    font-size: var(--font-size-xs);
+    text-shadow: 5px 5px 50px #00000094;
+}
 
 .welcome-page-container__title {
     font-size: var(--font-size-xl);

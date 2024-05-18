@@ -8,12 +8,18 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
-    
+
 }
 
 body {
-    background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 60%, #0D72C5 100%);
+    background: linear-gradient(to right, #76CFF6 -50%, #70A7C8 35%, #0D72C5 120%);
     margin: 0 0 0 8vh;
+}
+
+@media(min-width: 650px) {
+    body {
+        background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 60%, #0D72C5 100%);
+    }
 }
 
 :root {
@@ -23,7 +29,7 @@ body {
     --font-size-s: 23px;
     --font-size-m: 25px;
     --font-size-l: 30px;
-    --font-size-xl: 50px;
+    --font-size-xl: 52px;
     --font-size-xxl: 75px;
     --font-size-xxxl: 90px;
 
