@@ -18,7 +18,7 @@
 
 .welcome-page__button {
     display: flex;
-    margin: 75px 0 0 0;
+    margin: 90px 0 0 0;
     font-size: var(--font-size-xs);
     text-shadow: 5px 5px 50px #00000094;
 }
