@@ -1,6 +1,3 @@
-import lobbyTasksContent from './lobby-tasks-item';
-
-const RenderingTasksItem = lobbyTasksContent;
 const LobbyPageContent = () => (
     <div className="lobby-page">
         <div className="lobby-page__title">Add a first note</div>

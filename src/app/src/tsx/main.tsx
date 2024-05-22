@@ -1,6 +1,9 @@
-import { lazy, Suspense, ReactElement } from 'react';
-import { createBrowserRouter, RouterProvider, Navigate, RouteObject, useLoaderData } from 'react-router-dom';
-import { LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import type { ReactElement } from 'react';
+import { createBrowserRouter, RouterProvider, Navigate, useLoaderData } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
+import type { LoaderFunction, LoaderFunctionArgs } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 import '../css/index.css';
 import LoadingPageContent from './loading-page';
