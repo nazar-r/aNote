@@ -8,17 +8,24 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
-
+    box-sizing: border-box;
 }
 
 body {
     background: linear-gradient(to right, #76CFF6 -50%, #70A7C8 35%, #0D72C5 120%);
-    margin: 0 0 0 8vh;
+    padding: 0 12vw 0 15vw;
 }
 
 @media(min-width: 650px) {
     body {
-        background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 60%, #0D72C5 100%);
+        padding: 0 20vw 0 20vw;
+        background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 50%, #0D72C5 120%);
+    }
+}
+@media(min-width: 1250px) {
+    body {
+        padding: 0 25vw 0 25vw;
+        background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 56%, #0D72C5 120%);
     }
 }
 
@@ -28,10 +35,10 @@ body {
     --font-size-xs: 21px;
     --font-size-s: 23px;
     --font-size-m: 25px;
-    --font-size-l: 30px;
-    --font-size-xl: 52px;
-    --font-size-xxl: 75px;
-    --font-size-xxxl: 90px;
+    --font-size-l: 20px;
+    --font-size-xl: 50px;
+    --font-size-xxl: 60px;
+    --font-size-xxxl: 75px;
 
     --color-text: #ffffff;
     --color-item-background: #000000;
@@ -69,7 +76,7 @@ body {
     --tablet-scale-welcome-page__heading-button--item: 65%;
     --desktop-scale-welcome-page__heading-button--item: 75%;
 
-    --transform-welcome-page__button--item: translateY(-5px) scale(1.03);
+    --transform-welcome-page__button--item: translateY(-6px) scale(1.00);
 
 
 
@@ -100,7 +107,8 @@ body {
 }
 
 :root {
-    --welcome-page-container__description: 15px 0 0 0;
+    --welcome-page-container__description: 13px 0 0 0;
+    --welcome-page-container__description-650: 20px 0 0 0;
     --welcome-page-container-padding: 0 0 0px 0;
     --button-radius: 6px;
     --button-width: 180px;

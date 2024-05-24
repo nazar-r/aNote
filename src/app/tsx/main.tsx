@@ -97,7 +97,7 @@ const contentRoutes: RouteObject[] = [
     path: '/',
     errorElement: <ErrorsPageContent />,
     children: [
-      { index: true, element: <Navigate to="/welcome" replace /> },
+      { index: true, element: <Navigate to="/lobby" replace /> },
       { path: 'welcome', element: withSuspense(<WelcomePage />) },
       { path: 'lobby', element: withSuspense(<LobbyPage />) },
       { path: 'updates', element: withSuspense(<UpdatesPage />) },
