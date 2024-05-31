@@ -1,41 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import type { AuthUser } from "../extensions/auth.types";
 
 @Injectable()
 export class UsersService {
   private prisma = new PrismaClient();
 
-  findOrCreateByGithub(email: string, githubId: string) {
-    if (!email) throw new Error('Email is required');
-    if (!githubId) throw new Error('googleId is required');
+  findOrCreateUser(profile: AuthUser) {
+    if (!profile.id) throw new UnauthorizedException('Profile ID is missing');
+    if (!profile.email) throw new UnauthorizedException('Profile Email is missing');
 
     return this.prisma.user.upsert({
-      where: { email },
-      update: { githubId },
-      create: { email, githubId },
-    });
-  }
-  
-  findOrCreateByGoogle(email: string, googleId: string) {
-    if (!email) throw new Error('Email is required');
-    if (!googleId) throw new Error('googleId is required');
-
-    return this.prisma.user.upsert({
-      where: { email },
-      update: { googleId },
-      create: { email, googleId },
+      where: { email: profile.email },
+      update: { id: profile.id },
+      create: { email: profile.email, id: profile.id },
     });
   }
 
   create(email: string, password?: string, googleId?: string) {
-    if (!email) throw new Error('Email is required');
     return this.prisma.user.create({
       data: { email, password, googleId },
     });
   }
 
   updateRefreshToken(userId: string, refreshTokenHash: string) {
-    if (!userId) throw new Error('userId is required');
     return this.prisma.user.update({
       where: { id: userId },
       data: { refreshToken: refreshTokenHash },

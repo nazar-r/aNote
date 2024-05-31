@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import type { GoogleUser, GithubUser } from "./auth.extensions/types";
+import type { AuthUser } from "../extensions/auth.types";
 
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AuthService {
         private usersService: UsersService,
     ) { }
 
-    googleLogin = async (profile: GoogleUser) => {
+    googleLogin = async (profile: AuthUser) => {
         if (!profile.email) {
             throw new UnauthorizedException({
                 message: 'Email is missing in Google profile',
@@ -19,11 +19,7 @@ export class AuthService {
             });
         }
 
-        const user = await this.usersService.findOrCreateByGoogle(
-            profile.email,
-            profile.id,
-        );
-
+        const user = await this.usersService.findOrCreateUser(profile);
         const loginUser = () => ({
             access_token: this.jwtService.sign({
                 email: user.email,
@@ -34,19 +30,15 @@ export class AuthService {
         return loginUser();
     };
 
-    githubLogin = async (profile: GithubUser) => {
+    githubLogin = async (profile: AuthUser) => {
         if (!profile.email) {
             throw new UnauthorizedException({
-                message: 'Email is missing in Github profile',
+                message: 'Email is missing in GitHub profile',
                 error: 'Unauthorized',
             });
         }
 
-        const user = await this.usersService.findOrCreateByGithub(
-            profile.email,
-            profile.id,
-        );
-
+        const user = await this.usersService.findOrCreateUser(profile);
         const loginUser = () => ({
             access_token: this.jwtService.sign({
                 email: user.email,
@@ -57,12 +49,11 @@ export class AuthService {
         return loginUser();
     };
 
-    generateTokens = async (userId: string, email: string) => {
-        console.log("GENERATE TOKENS START");
-        console.log("TOKEN INPUT:", { userId, email });
-
-        const payload = { sub: userId, email };
-        console.log("PAYLOAD:", payload);
+    generateTokens = async (profile: AuthUser) => {
+        const payload = {
+            sub: profile.id,
+            email: profile.email
+        };
 
         const [accessToken, refreshToken] = await Promise.all([
             this.jwtService.signAsync(payload, { expiresIn: '15m' }),

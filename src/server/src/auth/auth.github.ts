@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-github2';
 import { UsersService } from '../users/users.service';
+import type { AuthUser } from "../extensions/auth.types";
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -14,21 +15,18 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: VerifyCallback,
-  ): Promise<void> {
-    const { id, emails, name } = profile;
+  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) {
+    const { id, emails, displayName } = profile;
+    const email = emails?.[0]?.value;
+    const name = displayName;
 
-    if (!id) return done(new Error('Github profile ID is missing'), null);
+    if (!id) return done(new UnauthorizedException('Github profile ID is missing'), null);
+    if (!email) return done(new UnauthorizedException('Email is missing in Github profile'), null);
 
-    const email = emails?.[0]?.value || null; // email може бути null
-    const fullName = `${name?.givenName || ''} ${name?.familyName || ''}`.trim();
+    const prefixedId = `gt_${id}`;
 
-    const user = await this.usersService.findOrCreateByGithub(email, id);
+    const user: AuthUser = await this.usersService.findOrCreateUser({ id: prefixedId, email, name });
 
-    return done(null, user);
+    done(null, user);
   }
 }

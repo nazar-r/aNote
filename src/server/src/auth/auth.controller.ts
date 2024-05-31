@@ -9,9 +9,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() {
-    console.log('Google login started');
-  }
+  async googleAuth() {}
 
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
@@ -21,9 +19,7 @@ export class AuthController {
 
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  async githubAuth() {
-    console.log('GitHub login started');
-  }
+  async githubAuth() {}
 
   @Get('github/redirect')
   @UseGuards(AuthGuard('github'))
