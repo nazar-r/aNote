@@ -8,21 +8,22 @@ import { JwtCheckCookies } from '../src.b.jwt/jwt.check.cookies';
 @UseGuards(JwtCheckCookies)
 export class NotesController {
   constructor(private readonly notesService: NotesService) { }
-  
+
   @Post()
   create(@Body() createNoteDto: CreateNoteDto, @Req() req) {
     const cookiesUserId = req.user.userId;
     return this.notesService.create(createNoteDto, cookiesUserId);
   }
 
+  @Get()
+  findNotes(@Req() req) {
+    const cookiesUserId = req.user.userId;
+    return this.notesService.findNotes(cookiesUserId);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string, @Req() req: any) {
     const userId = req.user.sub;
     return this.notesService.remove(id, userId);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.notesService.update(+id, updateNoteDto);
   }
 }

@@ -1,7 +1,15 @@
 export interface notesData {
-    id: number;
+    noteId: string;
     content: string;
 }
+
+export interface givenNotesData {
+    noteId: string;
+    content: string;
+    userId: string;
+    createdAt: string;
+    updatedAt: string;
+};
 
 export interface SharedTextContextType {
     text: string;
@@ -11,6 +19,7 @@ export interface SharedTextContextType {
 export type AuthToken = {
     token: string
 };
+
 
 export type ContextType = {
     prev: any;

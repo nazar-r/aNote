@@ -4,11 +4,11 @@ import Navbar from '../tsx.items/navbar';
 
 const LobbyPagePrevContent = () => {
     const [text, setText] = useState("");
-    const { mutate} = useCreatingNote(() => setText(""));
+    const { mutate } = useCreatingNote(() => setText(""));
 
     const handleSubmit = () => {
         if (!text.trim()) return;
-        mutate({ content: text });
+        mutate({ noteId: "", content: text });
     };
 
     return (

@@ -8,6 +8,8 @@
 .lobby-page__container {
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .lobby-note__hidden--item {
@@ -56,6 +58,7 @@
     transform: rotate(45deg);
     margin: 2px 0 0 0;
 }
+
 .lobby-note__field {
     cursor: pointer;
     width: 100%;

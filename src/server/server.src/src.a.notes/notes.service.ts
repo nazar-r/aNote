@@ -15,9 +15,11 @@ export class NotesService {
       },
     });
   }
-  
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+
+  findNotes(userId: string, ) {
+    return this.prisma.note.findMany({
+      where: { userId },
+    });
   }
 
   remove(noteId: string, userId: string) {

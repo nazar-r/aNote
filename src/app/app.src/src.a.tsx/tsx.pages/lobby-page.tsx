@@ -1,19 +1,21 @@
-import { useQueryClient } from "@tanstack/react-query";
 import Navbar from '../tsx.items/navbar';
+import { useQuery } from "@tanstack/react-query";
+import { fetchingNotes } from '../tsx.extensions/getApi/get.content.api'
+import { useRemovingNotes } from '../tsx.extensions/setApi/use.remove.content.api';
 import type { notesData } from '../tsx.extensions/types';
 
 const LobbyPageContent = () => {
-    const queryClient = useQueryClient();
-
-    const notes = queryClient.getQueryData<notesData[]>(["notes"]) || [];
-
+    const removeNoteMutation = useRemovingNotes();
+    const { data: notes = [] } = useQuery<notesData[]>(["notes"], fetchingNotes);
+    const deleteNote =  (noteId: string) => { removeNoteMutation.mutate(noteId) };
+   
     return (
         <div>
             <div className="lobby-page">
                 <div className="lobby-page__title">Your Notes</div>
                 <div className="lobby-page__container">
                     {notes.map((note) => (
-                        <div key={note.id} className="lobby-note">
+                        <div className="lobby-note">
                             <textarea className="lobby-note__field" value={note.content} readOnly />
                             <div className="lobby-note__hidden">
                                 <div className="lobby-note__hidden--item">
@@ -29,7 +31,7 @@ const LobbyPageContent = () => {
                                             <path d="M17 7.34091V9.65909L0 9.65909L0 7.34091L17 7.34091Z" fill="white" />
                                         </g>
                                     </svg>
-                                    <div className="lobby-note__hidden--item__edit">Delete</div>
+                                    <div className="lobby-note__hidden--item__edit" onClick={() => deleteNote(note.noteId)}>Delete</div>
                                 </div>
                             </div>
                         </div>

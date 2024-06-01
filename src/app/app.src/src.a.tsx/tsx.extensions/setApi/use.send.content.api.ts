@@ -5,7 +5,7 @@ import type { notesData, ContextType } from "../types";
 export const useCreatingNote = (onSuccessCallback?: () => void) => {
     const queryClient = useQueryClient();
 
-    return useMutation<unknown, unknown, notesData, ContextType>({
+    return useMutation<any, unknown, notesData, ContextType>({
         mutationFn: (data: notesData) => pushingNotes(data),
 
         onMutate: async (newNote) => {
@@ -15,12 +15,15 @@ export const useCreatingNote = (onSuccessCallback?: () => void) => {
 
             queryClient.setQueryData(["notes"], (old: any) => [
                 ...(old || []),
-                { id: Date.now(), content: newNote.content }
+                {
+                    noteId: `temp-${Date.now()}`,
+                    content: newNote.content,
+                }
             ]);
 
             return { prev };
         },
-        
+
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["notes"] });
             if (onSuccessCallback) onSuccessCallback();
