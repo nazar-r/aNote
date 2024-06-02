@@ -4,6 +4,7 @@
     align-items: left;
     color: var(--color-text);
     height: var(--height-welcome-page);
+     animation: fadeIn 0.2s ease forwards;
 }
 
 .welcome-page-container {

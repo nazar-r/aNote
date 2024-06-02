@@ -13,7 +13,8 @@
 
 input {
     background-color: #000000;
-    color: #ffffff;;
+    color: #ffffff;
+    ;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -23,6 +24,16 @@ input:-webkit-autofill {
     -webkit-text-fill-color: #ffffff !important;
     color: #ffffff !important;
     transition: background-color 5000s ease-in-out 0s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .main-index {
@@ -93,7 +104,7 @@ input:-webkit-autofill {
     --tablet-scale-welcome-page__heading-button--item: 65%;
     --desktop-scale-welcome-page__heading-button--item: 75%;
 
-    --transform-welcome-page__button--item: translateY(-6px) scale(1.00);
+    --transform-welcome-page__button--item: translateY(-7px) scale(1.00);
 
 
 

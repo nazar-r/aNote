@@ -1,45 +1,35 @@
-import { Injectable, UnauthorizedException, Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { GoogleStrategy } from './auth.google';
-import { AuthController } from './auth.controller';
-import { UsersService } from '../users/users.service';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcryptjs';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UsersService,
         private jwtService: JwtService,
+        private usersService: UsersService,
     ) { }
 
-    register = async (email: string, password: string) => {
-        console.log("REGISTER START");
-        console.log("INPUT:", { email, password });
+    googleLogin = async (profile: { id: string; email: string; name?: string }) => {
+        if (!profile.email) {
+            throw new UnauthorizedException({
+                message: 'Email is missing in Google profile',
+                error: 'Unauthorized',
+            });
+        }
 
-        const hash = await bcrypt.hash(password, 10);
-        console.log("HASH CREATED:", hash);
+        const user = await this.usersService.findOrCreateByGoogle(
+            profile.email,
+            profile.id,
+        );
 
-        const user = await this.usersService.create(email, hash);
-        console.log("USER CREATED:", user);
+        const loginUser = () => ({
+            access_token: this.jwtService.sign({
+                email: user.email,
+                sub: user.id,
+            }),
+        });
 
-        const tokens = await this.generateTokens(user.id, user.email);
-        console.log("TOKENS GENERATED:", tokens);
-
-        return tokens;
-    };
-
-    login = async (email: string, password: string) => {
-        const user = await this.usersService.findByEmail(email);
-        if (!user) throw new UnauthorizedException("Invalid credentials");
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) throw new UnauthorizedException("Invalid credentials");
-
-        const tokens = await this.generateTokens(user.id, user.email);
-        const hashedRefreshToken = await bcrypt.hash(tokens.refreshToken, 10);
-        await this.usersService.updateRefreshToken(user.id, hashedRefreshToken);
-
-        return tokens;
+        return loginUser();
     };
 
     generateTokens = async (userId: string, email: string) => {
@@ -59,11 +49,4 @@ export class AuthService {
 
         return { accessToken, refreshToken };
     };
-};
-
-@Module({
-    imports: [PassportModule.register({ session: true })],
-    controllers: [AuthController],
-    providers: [GoogleStrategy],
-})
-export class AuthModule { }
+}

@@ -9,8 +9,16 @@ export type AuthErrors = {
     passwordError: string;
 }
 
+export type AuthToken = {
+    token: string
+};
+
 export type SeverErrors = {
     serverError: string
+}
+export type ErrorResponse = {
+    message: string;
+    error: string;
 };
 
 export type ButtonConfig = {

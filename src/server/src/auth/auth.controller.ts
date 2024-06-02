@@ -9,32 +9,13 @@ export class AuthController {
   constructor(private authService: AuthService) { }
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() {}
+  async googleAuth() {
+    console.log("Google")
+  }
 
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
   googleAuthRedirect(@Req() req) {
-    return req.user;
-  }
-  
-  @Post('register')
-  async register(@Body() dto: AuthDto) {
-    try {
-      const tokens = await this.authService.register(dto.email, dto.password);
-
-      // console.log("REGISTER REQUEST:", dto);
-      console.log("TOKENS:", tokens);
-
-      return tokens;
-    } catch (err: any) {
-      // console.error("REGISTER ERROR:", err);
-      throw err;
-    }
-  }
-
-  @Post('login')
-  async login(@Body() dto: AuthDto) {
-    console.log("LOGIN REQUEST:", dto);
-    return this.authService.login(dto.email, dto.password);
+    return this.authService.googleLogin(req.user);
   }
 }

@@ -1,10 +1,13 @@
+import { config } from 'dotenv';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { Injectable } from '@nestjs/common';
+import * as types from './extensions/types';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(private readonly usersService: UsersService) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -18,17 +21,20 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     refreshToken: string,
     profile: any,
     done: VerifyCallback,
-  ): Promise<any> {
-    const { name, emails, photos } = profile;
+  ): Promise<void> {
+    const { id, emails, name } = profile;
 
-    const user = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastName: name.familyName,
-      picture: photos[0].value,
-      accessToken,
-    };
+    if (!id) return done(new Error('Google profile ID is missing'), null);
 
-    done(null, user);
+    const email = emails?.[0]?.value;
+    const fullName = `${name?.givenName || ''} ${name?.familyName || ''}`.trim();
+
+    if (!email) return done(new Error('Email is missing in Google profile'), null);
+
+
+    const user = await this.usersService.findOrCreateByGoogle(email, id);
+
+    return done(null, user);
+
   }
 }
