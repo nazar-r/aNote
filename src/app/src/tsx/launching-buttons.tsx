@@ -1,46 +1,43 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authFetching from "./extensions/fetching";
 
 const RenderingButtons = () => {
-  const [buttonIndex, setButtonIndex] = useState<number | null>(null);
+  const [buttonView, setButtonView] = useState<number | null>(null);
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loadingTitle, setLoadingTitle] = useState(false);
+  const buttons = ["Log in", "Sign up"];
 
   const navigate = useNavigate();
-  const buttons = ["Log in", "Sign up"];
-  const callCountRef = useRef(0);
 
-  const onClickButton = async (num: number) => {
-    callCountRef.current += 1;
-    setButtonIndex(num);
-    setLoadingTitle(true);
-    const buttonMode = num === 0 ? "login" : "register";
+  const launchingButton = (index: number) => {
+    setButtonView(index);
+  };
 
-    if (callCountRef.current > 1) {
-      const fetchImport = await authFetching({ email, password, buttonMode });
-      fetchImport.error
-        ? setError(fetchImport.error)
-        : fetchImport.token &&
-        (localStorage.setItem("token", fetchImport.token), navigate("/lobby"));
-    }
-
-    setLoadingTitle(false);
+  const fetchingButton = async (index: number) => {
+    const buttonMode = index === 0 ? "login" : "register";
+    setLoadingTitle(true)
+    const fetchImport = await authFetching({ email, password, buttonMode });
+    setLoadingTitle(false)
     console.log(buttonMode);
+
+    fetchImport.error
+      ? setError(fetchImport.error)
+      : fetchImport.token && (localStorage.setItem("token", fetchImport.token), navigate("/lobby"));
   };
 
   return (
     <div className="login-page__button-container">
       {buttons.map((titleItem, index) => (
-        <div key={index} className="login-page__button">
-          <div className="login-page__button--title" onClick={() => onClickButton(index)}>
-            <p className="login-page__button--title-text">{titleItem}</p>
+        <div key={index} className="login-page__button" onClick={() => launchingButton(index)}>
+          <div className="login-page__button--title">
+            <div className="login-page__button--title-text" onClick={(e) => { e.stopPropagation(); fetchingButton(index) }}>{titleItem}</div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="login-page__button--icon"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
           </div>
 
-          {buttonIndex === index ? (
+          {buttonView === index ? (
             <div className="login-page__button--text-input">
               <input className="login-page__button--text-item" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
               {error.emailError ? <p className="login-page__button--error">{error.emailError}</p> : null}
