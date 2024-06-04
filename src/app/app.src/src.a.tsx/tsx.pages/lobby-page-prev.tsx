@@ -24,7 +24,6 @@ const LobbyPagePrevContent = () => {
                     </div>
                     <textarea className="lobby-prev-page__text-field--input" placeholder="Apply Text" value={text} onChange={(e) => setText(e.target.value)} />
                 </div>
-
             </div>
             <Navbar />
         </div>

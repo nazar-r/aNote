@@ -11,19 +11,19 @@
     align-items: center;
 }
 
-.lobby-page__container:not(:hover) .lobby-page__container--add {
+.lobby-page__viewport {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.lobby-page__viewport:not(:hover) .lobby-page__container--add {
     animation: fadeOutAdd 0.2s ease forwards;
     pointer-events: none;
 }
 
 .lobby-page__container--add {
     margin: 0 40px 0 0;
-    animation: fadeInAdd 0.2s ease forwards;
-}
-
-.lobby-page__container--add {
-    margin: 0 40px 0 0;
-    transition: 0.2s ease forwards;
     animation: fadeInAdd 0.2s ease forwards;
 }
 
@@ -63,10 +63,10 @@
 .lobby-page__viewport {
     position: relative;
     overflow-x: auto;
-    mask-image: linear-gradient(to left, #00000000, #000000 40%);
+    mask-image: linear-gradient(to left, #00000000, #000000 20%);
     mask-repeat: no-repeat;
-    mask-size: 100% 100%;
-    -webkit-mask-image: linear-gradient(to left, #00000000, #000000 40%);
+    mask-size: 101% 100%;
+    -webkit-mask-image: linear-gradient(to left, #00000000, #000000 20%);
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 10 0% 100%;
 }
@@ -76,19 +76,11 @@
     pointer-events: none;
 }
 
-.lobby-page__viewport:not(:hover) .lobby-page__button--icon {
-    display: none;
-    pointer-events: none;
-}
-
-.lobby-page__button {
-    margin: 20px 0 0 0;
-}
-
 .lobby-page__button--icon {
     cursor: pointer;
     color: #ffffff;
     opacity: 50%;
+    margin: 0 30px 0 0;
 }
 
 .lobby-note__hidden--item__edit {
@@ -119,13 +111,10 @@
     border: none;
 }
 
-/* .lobby-note:hover {
-    height: 250px;
-    margin: 0 35px 0 20px;
-    opacity: 80%;
+.lobby-note:hover {
     box-shadow: 7px 7px 50px #00000093;
     cursor: pointer;
-} */
+}
 
 .lobby-note__hidden--item:hover {
     transform: var(--transform-welcome-page__button--item);

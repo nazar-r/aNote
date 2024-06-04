@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchingNotes } from '../tsx.extensions/getApi/get.content.api';
 import { useRemovingNotes } from '../tsx.extensions/setApi/use.remove.content.api';
+import { useCreatingNote } from "../tsx.extensions/setApi/use.send.content.api";
 import { useRef, useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import Navbar from '../tsx.items/navbar';
@@ -13,13 +14,21 @@ const LobbyPageContent = () => {
     const [defEdit, setEdit] = useState(false);
     const switchEdit = (e: React.MouseEvent) => { e.stopPropagation(); setEdit(prev => !prev) };
 
+    const [text, setText] = useState("");
+    const { mutate } = useCreatingNote(() => setText(""));
+
+    const handleSubmit = () => {
+        if (!text.trim()) return;
+        mutate({ noteId: "", content: text });
+    };
+
+
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const [width, setWidth] = useState(0);
 
     useEffect(() => {
         setLocalNotes(notes);
-
         if (trackRef.current && viewportRef.current) {
             const trackWidth = trackRef.current.scrollWidth;
             const viewportWidth = viewportRef.current.offsetWidth;
@@ -57,7 +66,7 @@ const LobbyPageContent = () => {
             <div className="lobby-page">
                 <div className="lobby-page__title">Your Notes</div>
                 <div className="lobby-page__viewport" ref={viewportRef} style={{ overflow: "hidden", position: "relative" }}>
-                    <motion.div ref={trackRef} className="lobby-page__container" drag="x" dragConstraints={{ left: -width, right: 0 }} dragElastic={0.1} style={{ display: "flex", gap: "20px", cursor: "grab" }}>
+                    <motion.div ref={trackRef} className="lobby-page__container" drag="x" dragConstraints={{ left: -width, right: 0 }} dragElastic={0.1} style={{ display: "flex", cursor: "grab" }}>
                         <svg className="lobby-page__container--add" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="1">
                                 <path d="M7.34091 0H9.65909V17H7.34091V0Z" fill="white" />
@@ -89,10 +98,10 @@ const LobbyPageContent = () => {
                             </div>
                         ))}
                     </motion.div>
-                    <div className="lobby-page__button">
-                        <svg xmlns="http://www.w3.org/2000/svg" onClick={scrollLeft} width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" className="lobby-page__button--icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" onClick={scrollRight} width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" className="lobby-page__button--icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </div>
+                </div>
+                <div className="lobby-page__button">
+                    <svg xmlns="http://www.w3.org/2000/svg" onClick={scrollLeft} width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lobby-page__button--icon"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" onClick={scrollRight} width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lobby-page__button--icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </div>
             </div>
             <Navbar />
