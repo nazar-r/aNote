@@ -1,4 +1,4 @@
-export const loginUser = async (email: string, password: string) => {
+const userLogin = async (email: string, password: string) => {
   const res = await fetch("http://localhost:3000/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -6,7 +6,12 @@ export const loginUser = async (email: string, password: string) => {
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Log in failed");
+  localStorage.setItem("token", data.accessToken);
 
-  return data.access_token;
+  console.log("SERVER RESPONSE:", data);
+  console.log("ACCESS TOKEN:", data.accessToken);
+
+  return data;
 };
+
+export default userLogin

@@ -1,27 +1,25 @@
-import { registerUser } from "./register-user";
-import { loginUser } from "./login-user";
+import userRegistration from "./register-user";
+import userLogin from "./login-user";
 import { checkingEmailSyntax, checkingPassSyntax } from "./syntax-check";
 
-export interface LoginData {
+export interface AuthData {
   email: string;
   password: string;
+  buttonMode: "register" | "login";
 }
 
-export interface LoginError {
-  email: string;
-  password: string;
+export interface AuthErrors {
+  emailError: string;
+  passwordError: string;
 }
 
-export const handleSubmit = async ({
-  email,
-  password,
-}: LoginData): Promise<{ token?: string; error?: LoginError }> => {
-  const emailError = email && !checkingEmailSyntax(email) ? "Incorrect Email!" : "";
-  const passwordError = password && !checkingPassSyntax(password) ? "Paste at least 8 characters as password" : "";
+const authFetching = async ({ email, password, buttonMode }: AuthData): Promise<{ token?: string; error: AuthErrors }> => {
+  const routingButtons = async () => (buttonMode === "register" ? userRegistration(email, password) : userLogin(email, password));
+  const emailError = !!email ? "Email is required!" : !checkingEmailSyntax(email) ? "Incorrect Email!" : "";
+  const passwordError = !!password ? "Password is required!" : !checkingPassSyntax(password) ? "Paste at least 8 characters as password" : "";
+  const checkingErrors = emailError || passwordError;
 
-  return emailError || passwordError
-    ? { error: { email: emailError, password: passwordError } }
-    : await registerUser(email, password)
-        .then((token) => ({ token }))
-        .catch((err: any) => ({ error: { email: "", password: err.message || "Login failed" } }));
+  return checkingErrors ? { error: { emailError, passwordError } } : await routingButtons();
 };
+
+export default authFetching;
