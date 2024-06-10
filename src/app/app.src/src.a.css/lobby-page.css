@@ -8,8 +8,23 @@
 .lobby-page__container {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
-    white-space: nowrap;
+    align-items: center;
+}
+
+.lobby-page__container:not(:hover) .lobby-page__container--add {
+    animation: fadeOutAdd 0.2s ease forwards;
+    pointer-events: none;
+}
+
+.lobby-page__container--add {
+    margin: 0 40px 0 0;
+    animation: fadeInAdd 0.2s ease forwards;
+}
+
+.lobby-page__container--add {
+    margin: 0 40px 0 0;
+    transition: 0.2s ease forwards;
+    animation: fadeInAdd 0.2s ease forwards;
 }
 
 .lobby-note--fade {
@@ -17,14 +32,17 @@
 }
 
 .lobby-note__hidden--item {
-    font-size: 14px;
-    margin: 0 20px 0 0;
+    font-size: 12px;
+    opacity: 80%;
+    margin: 0 25px 0 0;
     display: flex;
     flex-direction: row;
+    animation: fadeIn 0.4s ease forwards;
 }
 
 .lobby-note {
-    margin: 40px 20px 0 0;
+    margin: 40px 20px 50px 0;
+    padding: 0 0 40px 0;
     width: 360px;
     height: 200px;
     display: flex;
@@ -35,14 +53,42 @@
 }
 
 .lobby-note__hidden {
-    margin: 10px 0 20px 40px;
+    animation: fadeIn 0.2s ease forwards;
+    margin: 25px 0 -15px 32px;
     display: flex;
     flex-direction: row;
+    color: #ffffffe8;
+}
+
+.lobby-page__viewport {
+    position: relative;
+    overflow-x: auto;
+    mask-image: linear-gradient(to left, #00000000, #000000 40%);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    -webkit-mask-image: linear-gradient(to left, #00000000, #000000 40%);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 10 0% 100%;
 }
 
 .lobby-note:not(:hover) .lobby-note__hidden {
-    opacity: 0;
+    display: none;
     pointer-events: none;
+}
+
+.lobby-page__viewport:not(:hover) .lobby-page__button--icon {
+    display: none;
+    pointer-events: none;
+}
+
+.lobby-page__button {
+    margin: 20px 0 0 0;
+}
+
+.lobby-page__button--icon {
+    cursor: pointer;
+    color: #ffffff;
+    opacity: 50%;
 }
 
 .lobby-note__hidden--item__edit {
@@ -55,12 +101,12 @@
 }
 
 .lobby-note__hidden--item__icon {
-    margin: 2px 0 0 0;
+    margin: 1px 0 0 0;
 }
 
 .lobby-note__hidden--item__icon-1 {
     transform: rotate(45deg);
-    margin: 2px 0 0 0;
+    margin: 1px 0 0 0;
 }
 
 .lobby-note__field {
@@ -68,21 +114,22 @@
     width: 100%;
     height: 100%;
     background: #000000;
-    padding: 30px 50px 20px 30px;
+    padding: 30px 50px 30px 30px;
     color: #ffffff;
     border: none;
 }
 
-.lobby-note:hover {
+/* .lobby-note:hover {
     height: 250px;
+    margin: 0 35px 0 20px;
     opacity: 80%;
     box-shadow: 7px 7px 50px #00000093;
     cursor: pointer;
-}
+} */
 
 .lobby-note__hidden--item:hover {
     transform: var(--transform-welcome-page__button--item);
-    opacity: 80%;
+    opacity: 60%;
     box-shadow: 7px 7px 50px #00000073;
     cursor: pointer;
 }

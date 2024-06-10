@@ -30,6 +30,20 @@ input:-webkit-autofill {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+@keyframes fadeInAdd {
+    from {
+        opacity: 0;
+        max-width: 0;
+        margin: 0;
+    }
+
+    to {
+        opacity: 1;
+        max-width: 15px;
+        margin: 0 40px 0 0;
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -39,6 +53,7 @@ input:-webkit-autofill {
         opacity: 1;
     }
 }
+
 @keyframes fadeOut {
     from {
         opacity: 1;
@@ -46,6 +61,20 @@ input:-webkit-autofill {
 
     to {
         opacity: 0;
+    }
+}
+
+@keyframes fadeOutAdd {
+    from {
+        opacity: 1;
+        max-width: 15px;
+        margin: 0 40px 0 0;
+    }
+
+    to {
+        opacity: 0;
+        max-width: 0;
+        margin: 0;
     }
 }
 
