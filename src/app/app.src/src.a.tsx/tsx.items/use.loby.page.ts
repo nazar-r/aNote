@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchingNotes } from '../tsx.extensions/getApi/get.content.api';
 import { useFetchingNotes } from '../tsx.extensions/getApi/use.get.content.api';
 import { useRemovingNotes } from '../tsx.extensions/setApi/use.remove.content.api';
 import { useCreatingNote } from "../tsx.extensions/setApi/use.send.content.api";

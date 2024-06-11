@@ -12,4 +12,4 @@ export const fetchingNotes = async () => {
   }
 
   return response.json();
-};
+};  
