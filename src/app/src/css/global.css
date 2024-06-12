@@ -11,7 +11,7 @@
     box-sizing: border-box;
 }
 
-body {
+.main-index {
     background: linear-gradient(to right, #76CFF6 -50%, #70A7C8 35%, #0D72C5 120%);
     padding: 0 12vw 0 15vw;
     width: 100vw;
@@ -19,13 +19,13 @@ body {
 }
 
 @media(min-width: 650px) {
-    body {
+    .main-index {
         padding: 0 20vw 0 20vw;
         background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 50%, #0D72C5 120%);
     }
 }
 @media(min-width: 1250px) {
-    body {
+    .main-index {
         padding: 0 25vw 0 25vw;
         background: linear-gradient(to right, #76CFF6 -30%, #70A7C8 56%, #0D72C5 120%);
     }

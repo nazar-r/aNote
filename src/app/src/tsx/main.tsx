@@ -9,6 +9,7 @@ import '../css/index.css';
 import LoadingPageContent from './loading-page';
 import ErrorsPageContent from './errors-page';
 
+const Layout = lazy(() => import('./layout'));
 const LoginPage = lazy(() => import('./login-page'));
 const WelcomePage = lazy(() => import('./welcome-page'));
 const LobbyPage = lazy(() => import('./lobby-page'));
@@ -99,6 +100,7 @@ const withSuspense = (component: ReactElement) => (
 const contentRoutes: RouteObject[] = [
   {
     path: '/',
+    element: <Layout />,
     errorElement: <ErrorsPageContent />,
     children: [
       { index: true, element: <Navigate to="/welcome" replace /> },
