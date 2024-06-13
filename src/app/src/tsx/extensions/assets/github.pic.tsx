@@ -1,6 +1,6 @@
 const GithubIcon = () => (
 <div className="login-page__button-hidden">
-        <svg className="login-page__additional-button--icon" width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        {/* <svg className="login-page__additional-button--icon" width="25px" height="25px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -7559.000000)" fill="#ffffff">
               <g id="icons" transform="translate(56.000000, 160.000000)">
@@ -9,7 +9,7 @@ const GithubIcon = () => (
               </g>
             </g>
           </g>
-        </svg>
+        </svg> */}
       </div>
 )
 

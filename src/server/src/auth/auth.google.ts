@@ -1,8 +1,6 @@
-import { config } from 'dotenv';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
-import * as types from './extensions/types';
 import { UsersService } from '../users/users.service';
 
 @Injectable()

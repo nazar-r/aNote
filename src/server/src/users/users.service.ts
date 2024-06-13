@@ -5,13 +5,24 @@ import { PrismaClient } from '@prisma/client';
 export class UsersService {
   private prisma = new PrismaClient();
 
+  findOrCreateByGithub(email: string, githubId: string) {
+    if (!email) throw new Error('Email is required');
+    if (!githubId) throw new Error('googleId is required');
+
+    return this.prisma.user.upsert({
+      where: { email },
+      update: { githubId },
+      create: { email, githubId },
+    });
+  }
+  
   findOrCreateByGoogle(email: string, googleId: string) {
     if (!email) throw new Error('Email is required');
     if (!googleId) throw new Error('googleId is required');
 
     return this.prisma.user.upsert({
-      where: { email }, 
-      update: { googleId }, 
+      where: { email },
+      update: { googleId },
       create: { email, googleId },
     });
   }

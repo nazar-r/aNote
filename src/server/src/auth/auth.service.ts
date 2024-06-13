@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import type { GoogleUser, GithubUser } from "./auth.extensions/types";
+
 
 @Injectable()
 export class AuthService {
@@ -9,7 +11,7 @@ export class AuthService {
         private usersService: UsersService,
     ) { }
 
-    googleLogin = async (profile: { id: string; email: string; name?: string }) => {
+    googleLogin = async (profile: GoogleUser) => {
         if (!profile.email) {
             throw new UnauthorizedException({
                 message: 'Email is missing in Google profile',
@@ -18,6 +20,29 @@ export class AuthService {
         }
 
         const user = await this.usersService.findOrCreateByGoogle(
+            profile.email,
+            profile.id,
+        );
+
+        const loginUser = () => ({
+            access_token: this.jwtService.sign({
+                email: user.email,
+                sub: user.id,
+            }),
+        });
+
+        return loginUser();
+    };
+
+    githubLogin = async (profile: GithubUser) => {
+        if (!profile.email) {
+            throw new UnauthorizedException({
+                message: 'Email is missing in Github profile',
+                error: 'Unauthorized',
+            });
+        }
+
+        const user = await this.usersService.findOrCreateByGithub(
             profile.email,
             profile.id,
         );

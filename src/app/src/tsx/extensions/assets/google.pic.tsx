@@ -1,6 +1,6 @@
 const GoogleIcon = () => (
     <div className="login-page__button-hidden">
-        <svg width="25px" height="25px" viewBox="-0.5 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        {/* <svg width="25px" height="25px" viewBox="-0.5 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g id="Color-" transform="translate(-401.000000, -860.000000)">
                     <g id="Google" transform="translate(401.000000, 860.000000)">
@@ -15,7 +15,7 @@ const GoogleIcon = () => (
                     </g>
                 </g>
             </g>
-        </svg>
+        </svg> */}
     </div>
 )
 
